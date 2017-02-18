@@ -19,6 +19,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.ListIterator;
 
+import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
+
 
 /**
  * Created by condor on April 04, 2015
@@ -76,9 +78,14 @@ public class ToDoListServlet extends HttpServlet {
 //        myListObject.printList();
 //        List<ToDoBean> l = myListObject.getList();
 
+        MyListOfToDoMock myListObject = MyListOfToDoMock.getInstance();
+        myListObject.printList();
+        List<ToDoBean> l = myListObject.getList();
+
+
 
         AccessTaskList atl = new AccessTaskList();
-        List<ToDoBean> l = atl.getTaskList();
+       atl.insertTaskList(value);
 
 
 
@@ -116,23 +123,28 @@ public class ToDoListServlet extends HttpServlet {
 
         String idS = request.getParameter(ID_TASK);
         int id = Integer.parseInt(idS);
-        MyListOfToDoMock myListObject = MyListOfToDoMock.getInstance();
 
-        myListObject.printList();
+        AccessTaskList atl = new AccessTaskList();
+        atl.markDone(id);
 
 
-        List<ToDoBean> l = myListObject.getList();
-        for (ListIterator<ToDoBean> iterator = l.listIterator(); iterator.hasNext(); ) {
-            ToDoBean element = iterator.next();
-
-            if (element.getId() == id) {
-                System.out.println("found it, now canceling");
-                element.setDone(true);
-                iterator.set(element);
-            }
-        }
-
-        System.out.println("i am done");
+//        MyListOfToDoMock myListObject = MyListOfToDoMock.getInstance();
+//
+//        myListObject.printList();
+//
+//
+//        List<ToDoBean> l = myListObject.getList();
+//        for (ListIterator<ToDoBean> iterator = l.listIterator(); iterator.hasNext(); ) {
+//            ToDoBean element = iterator.next();
+//
+//            if (element.getId() == id) {
+//                System.out.println("found it, now canceling");
+//                element.setDone(true);
+//                iterator.set(element);
+//            }
+//        }
+//
+//        System.out.println("i am done");
     }
 
     private void addAction(HttpServletRequest request, HttpServletResponse response) {
